@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-app.use(express.static('dist'))
+app.use(express.static('backend/dist'))
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -38,7 +38,7 @@ const generateId = () => {
   return String(maxId + 1)
 }
 
-const PORT = 3001
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
