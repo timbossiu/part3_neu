@@ -8,8 +8,6 @@ if (process.argv.length < 3) {
   console.log('Please provide password as argue')
 }
 
-const password = process.argv[2]
-
 app.use(express.static('backend/dist'))
 
 const requestLogger = (request, response, next) => {
