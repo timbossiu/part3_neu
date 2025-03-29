@@ -4,7 +4,6 @@ const express = require('express')
 const app = express()
 const Note = require('./models/note')
 
-app.use(express.static('backend/dist'))
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -15,6 +14,8 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
+app.use(express.static('backend/dist'))
+app.use(express.json())
 
 let notes = [
   {
