@@ -1,5 +1,14 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
+const Note = require('./models/note')
+
+if (process.argv.length < 3) {
+  console.log('Please provide password as argue')
+}
+
+const password = process.argv[2]
 
 app.use(express.static('backend/dist'))
 
@@ -48,7 +57,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
