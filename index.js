@@ -1,9 +1,12 @@
 require('dotenv').config()
 
+const cors = require('cors')
+
 const express = require('express')
 const app = express()
 const Note = require('./models/note')
 
+app.use(cors())
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
