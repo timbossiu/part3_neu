@@ -4,10 +4,6 @@ const express = require('express')
 const app = express()
 const Note = require('./models/note')
 
-if (process.argv.length < 3) {
-  console.log('Please provide password as argue')
-}
-
 app.use(express.static('backend/dist'))
 
 const requestLogger = (request, response, next) => {
@@ -61,32 +57,26 @@ app.get('/api/notes', (request, response) => {
 })
 
 app.get('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  const note = notes.find(note => note.id === id)
-  if (note) {
+  Note.findById(request.params.id).then(note => {
     response.json(note)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
+
   if (!body.content) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
+    return response.status(400).json({ error: 'content missing' })
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
-    important: Boolean(body.important) || false,
-    id: generateId()
-  }
+    important: body.important || false,
+  })
 
-  notes = notes.concat(note)
-
-  response.json(note)
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
