@@ -8,6 +8,8 @@ const Note = require('./models/note')
 
 app.use(cors())
 
+const PORT = process.env.PORT || 3001;
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -107,7 +109,6 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
