@@ -8,7 +8,7 @@ const Note = require('./models/note')
 
 app.use(cors())
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -52,7 +52,7 @@ app.get('/api/notes/:id', (request, response, next) => {
       if (note) {
         response.json(note)
       } else {
-        response.status(404).end() 
+        response.status(404).end()
       }
     })
     .catch(error => next(error))
@@ -70,15 +70,16 @@ app.post('/api/notes', (request, response, next) => {
     important: body.important || false,
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  })
-  .catch(error => next(error))
+  note.save()
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
